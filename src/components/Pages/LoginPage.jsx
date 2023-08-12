@@ -1,4 +1,5 @@
-import React from 'react';
+import { useDispatch } from 'react-redux';
+import { loginUser } from 'redux/auth/operations';
 
 const style = {
   display: 'flex',
@@ -7,9 +8,16 @@ const style = {
 };
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+
   //
   const handleSubmit = e => {
     e.preventDefault();
+
+    const email = e.target.elements.email.value.trim();
+    const password = e.target.elements.password.value.trim();
+
+    dispatch(loginUser({ email, password }));
   };
 
   return (
@@ -23,7 +31,7 @@ const LoginPage = () => {
         </label>
         <label style={style}>
           Password
-          <input type="password" name="password" value="pass4567" />
+          <input type="password" name="password" value="examplepwd1234" />
         </label>
         <button type="submit">Log In</button>
       </form>
