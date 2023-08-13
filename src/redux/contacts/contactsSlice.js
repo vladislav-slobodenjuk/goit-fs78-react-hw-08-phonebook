@@ -1,5 +1,5 @@
 import { createSlice, isPending, isRejected } from '@reduxjs/toolkit';
-import { addContact, deleteContact, fetchContacts } from './operations';
+import { addContact, deleteContact, getAllContacts } from './operations';
 
 const contactsInitialState = {
   items: [],
@@ -18,21 +18,29 @@ const handleRejected = (state, action) => {
   state.isLoading = false;
 };
 
+// const handleFulfilledDefaults = state => {
+//   state.isLoading = false;
+//   state.error = null;
+// };
+
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: contactsInitialState,
   extraReducers: builder =>
     builder
-      .addCase(fetchContacts.fulfilled, (state, action) => {
+      //--------- Get All Contacts ---------
+      .addCase(getAllContacts.fulfilled, (state, action) => {
         state.items = action.payload;
         state.isLoading = false;
         state.error = null;
       })
+      //--------- Add Contact ---------
       .addCase(addContact.fulfilled, (state, action) => {
         state.items.push(action.payload);
         state.isLoading = false;
         state.error = null;
       })
+      //--------- Delete Contact ---------
       .addCase(deleteContact.fulfilled, (state, action) => {
         const idx = state.items.findIndex(item => item.id === action.payload);
         state.items.splice(idx, 1);
@@ -40,11 +48,13 @@ const contactsSlice = createSlice({
         state.isLoading = false;
         state.error = null;
       })
-      .addMatcher(isPending(addContact, deleteContact, fetchContacts), state =>
+      //--------- Pendings ---------
+      .addMatcher(isPending(addContact, deleteContact, getAllContacts), state =>
         handlePending(state)
       )
+      //--------- Rejects ---------
       .addMatcher(
-        isRejected(addContact, deleteContact, fetchContacts),
+        isRejected(addContact, deleteContact, getAllContacts),
         (state, action) => handleRejected(state, action)
       ),
 });

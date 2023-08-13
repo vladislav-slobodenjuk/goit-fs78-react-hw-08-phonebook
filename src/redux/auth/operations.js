@@ -14,8 +14,7 @@ export const registerUser = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const { data } = await $phonebookInst.post('users/signup', userData);
-      setToken(data.token);
-
+      setToken(data.token); // !!
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -28,8 +27,7 @@ export const loginUser = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const { data } = await $phonebookInst.post('users/login', userData);
-      setToken(data.token);
-
+      setToken(data.token); // !!
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -42,7 +40,7 @@ export const logoutUser = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const { data } = await $phonebookInst.post('users/logout');
-      clearToken();
+      clearToken(); // !!
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -56,7 +54,7 @@ export const refreshUser = createAsyncThunk(
     const state = thunkAPI.getState();
     const token = state.auth.token;
     try {
-      setToken(token);
+      setToken(token); // !!
       const { data } = await $phonebookInst.get('users/current');
 
       return data;

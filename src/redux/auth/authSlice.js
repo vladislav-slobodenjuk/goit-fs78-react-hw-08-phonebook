@@ -21,6 +21,11 @@ const handleRejected = (state, action) => {
   state.isLoading = false;
 };
 
+// const handleFulfilledDefaults = state => {
+//   state.isLoading = false;
+//   state.error = null;
+// };
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: authInitialState,

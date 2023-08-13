@@ -20,7 +20,7 @@ export const App = () => {
 
   useEffect(() => {
     if (!token || isLoggedIn) return;
-    dispatch(refreshUser(token));
+    dispatch(refreshUser());
   }, [dispatch, token, isLoggedIn]);
 
   const handleLogout = () => {

@@ -5,8 +5,8 @@ export const $phonebookInst = axios.create({
   baseURL: 'https://connections-api.herokuapp.com',
 });
 
-export const fetchContacts = createAsyncThunk(
-  'contacts/fetchAll',
+export const getAllContacts = createAsyncThunk(
+  'contacts/getAllContacts',
   async (_, thunkAPI) => {
     try {
       const { data } = await $phonebookInst.get('contacts');
