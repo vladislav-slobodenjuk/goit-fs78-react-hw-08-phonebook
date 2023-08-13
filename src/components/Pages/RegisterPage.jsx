@@ -22,20 +22,26 @@ const RegisterPage = () => {
 
   return (
     <div>
-      <div>RegisterPage</div>
+      <h1>RegisterPage</h1>
 
       <form onSubmit={handleSubmit}>
         <label style={style}>
           Username
-          <input type="text" name="name" />
+          <input type="text" name="name" required />
         </label>
         <label style={style}>
           Email
-          <input type="email" name="email" />
+          <input type="email" name="email" required />
         </label>
         <label style={style}>
           Password
-          <input type="password" name="password" value="examplepwd1234" />
+          <input
+            type="password"
+            name="password"
+            minLength={7}
+            required
+            value="examplepwd1234"
+          />
         </label>
         <button type="submit">Register</button>
       </form>

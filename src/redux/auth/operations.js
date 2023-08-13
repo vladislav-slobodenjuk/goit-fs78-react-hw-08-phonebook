@@ -11,15 +11,12 @@ const clearToken = () => {
 
 export const registerUser = createAsyncThunk(
   'auth/register',
-  async (user, thunkAPI) => {
+  async (userData, thunkAPI) => {
     try {
-      //
-      const { data } = await $phonebookInst.post('users/signup', user);
+      const { data } = await $phonebookInst.post('users/signup', userData);
       setToken(data.token);
 
-      console.log(data);
       return data;
-      //
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -28,15 +25,12 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   'auth/login',
-  async (user, thunkAPI) => {
+  async (userData, thunkAPI) => {
     try {
-      //
-      const { data } = await $phonebookInst.post('users/login', user);
+      const { data } = await $phonebookInst.post('users/login', userData);
       setToken(data.token);
 
-      console.log(data);
       return data;
-      //
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -47,12 +41,25 @@ export const logoutUser = createAsyncThunk(
   'auth/logout',
   async (_, thunkAPI) => {
     try {
-      //
       const { data } = await $phonebookInst.post('users/logout');
       clearToken();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
-      console.log(data);
-      //
+export const refreshUser = createAsyncThunk(
+  'auth/refresh',
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const token = state.auth.token;
+    try {
+      setToken(token);
+      const { data } = await $phonebookInst.get('users/current');
+
+      return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

@@ -1,39 +1,68 @@
-import { loginUser, logoutUser, registerUser } from './operations';
+import { createSlice, isPending, isRejected } from '@reduxjs/toolkit';
 
-const { createSlice, isPending, isRejected } = require('@reduxjs/toolkit');
+import { loginUser, logoutUser, refreshUser, registerUser } from './operations';
 
 const authInitialState = {
-  user: { name: null, email: null },
+  isLoading: false,
+  error: null,
+  user: null,
   token: null,
   isLoggedIn: false,
-  isRefreshing: false,
 };
+
+const handlePending = state => {
+  state.error = null;
+  state.isLoading = true;
+  // state.isLoggedIn = false;
+};
+
+const handleRejected = (state, action) => {
+  state.error = action.payload;
+  state.isLoading = false;
+};
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: authInitialState,
   extraReducers: builder =>
     builder
+      //--------- Registration ---------
       .addCase(registerUser.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.isLoggedIn = true;
+        state.isLoading = false;
       })
+      //--------- Login ---------
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.isLoggedIn = true;
+        state.isLoading = false;
       })
+      //--------- Logout ---------
       .addCase(logoutUser.fulfilled, state => {
-        state.user = { name: null, email: null };
+        state.user = null;
         state.token = null;
         state.isLoggedIn = false;
+        state.isLoading = false;
       })
-      .addMatcher(isPending(registerUser, loginUser, logoutUser), state => {
-        // handlePending(state)
+      //--------- Refresh ---------
+      .addCase(refreshUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isLoggedIn = true;
+        state.isLoading = false;
       })
-      .addMatcher(isRejected(registerUser, loginUser, logoutUser), state => {
-        // handleRejected(state, action);
-      }),
+      .addMatcher(
+        isPending(registerUser, loginUser, logoutUser, refreshUser),
+        state => {
+          handlePending(state);
+        }
+      )
+      .addMatcher(
+        isRejected(registerUser, loginUser, logoutUser, refreshUser),
+        (state, action) => handleRejected(state, action)
+      ),
 });
 
 export const authReducer = authSlice.reducer;

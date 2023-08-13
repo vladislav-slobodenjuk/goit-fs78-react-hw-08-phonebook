@@ -1,8 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// axios.defaults.baseURL = 'https://64ce700b0c01d81da3eed22c.mockapi.io';
-
 export const $phonebookInst = axios.create({
   baseURL: 'https://connections-api.herokuapp.com',
 });

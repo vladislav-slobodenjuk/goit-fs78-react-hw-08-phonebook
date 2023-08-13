@@ -1,10 +1,13 @@
+import { useEffect } from 'react';
 import { lazy, Suspense } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Container } from './App.styled';
 import { Loader } from 'components/Loader/Loader';
-import { useDispatch } from 'react-redux';
-import { logoutUser } from 'redux/auth/operations';
+
+import { logoutUser, refreshUser } from 'redux/auth/operations';
+import { selectAuth } from 'redux/auth/selectors';
 
 const LazyHomePage = lazy(() => import('../Pages/HomePage'));
 const LazyRegisterPage = lazy(() => import('../Pages/RegisterPage'));
@@ -13,42 +16,51 @@ const LazyContactsPage = lazy(() => import('../Pages/ContactsPage'));
 
 export const App = () => {
   const dispatch = useDispatch();
+  const { token, isLoading, isLoggedIn } = useSelector(selectAuth);
+
+  useEffect(() => {
+    if (!token || isLoggedIn) return;
+    dispatch(refreshUser(token));
+  }, [dispatch, token, isLoggedIn]);
+
   const handleLogout = () => {
     dispatch(logoutUser());
   };
 
   return (
     <Container>
-      <div>
+      <header>
         <nav>
-          <ul>
-            <li>
-              <NavLink to="/">Home</NavLink>
-            </li>
-            <li>
-              <NavLink to="/register">Register</NavLink>
-            </li>
-            <li>
-              <NavLink to="/login">Login</NavLink>
-            </li>
-            <li>
-              <NavLink to="/contacts">Contacts</NavLink>
-            </li>
-          </ul>
-        </nav>
-        <button type="button" onClick={handleLogout}>
-          Logout
-        </button>
-      </div>
+          <NavLink to="/">Home</NavLink>
 
-      <Suspense fallback={<Loader />}>
-        <Routes>
-          <Route path="/" element={<LazyHomePage />} />
-          <Route path="/register" element={<LazyRegisterPage />} />
-          <Route path="/login" element={<LazyLoginPage />} />
-          <Route path="/contacts" element={<LazyContactsPage />} />
-        </Routes>
-      </Suspense>
+          {isLoggedIn ? (
+            <>
+              <NavLink to="/contacts">Contacts</NavLink>
+              <button type="button" onClick={handleLogout}>
+                Log Out
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink to="/register">Register</NavLink>
+              <NavLink to="/login">Login</NavLink>
+            </>
+          )}
+        </nav>
+      </header>
+
+      <main>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<LazyHomePage />} />
+            <Route path="/register" element={<LazyRegisterPage />} />
+            <Route path="/login" element={<LazyLoginPage />} />
+            <Route path="/contacts" element={<LazyContactsPage />} />
+          </Routes>
+        </Suspense>
+      </main>
+
+      {isLoading && <Loader />}
     </Container>
   );
 };

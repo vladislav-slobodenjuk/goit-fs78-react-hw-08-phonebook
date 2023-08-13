@@ -22,7 +22,7 @@ const LoginPage = () => {
 
   return (
     <div>
-      <div>LoginPage</div>
+      <h1>LoginPage</h1>
 
       <form onSubmit={handleSubmit}>
         <label style={style}>
