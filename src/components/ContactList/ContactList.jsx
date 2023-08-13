@@ -25,6 +25,9 @@ export const ContactList = () => {
 
   const noSavedContacts = items.length === 0 && !isLoading && !error;
 
+  // const showContacts =
+  //   Array.isArray(filteredContacts) && filteredContacts.length > 0;
+
   return (
     <StyledList>
       {filteredContacts.map(contact => (

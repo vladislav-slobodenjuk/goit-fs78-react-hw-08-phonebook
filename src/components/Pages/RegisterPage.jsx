@@ -14,6 +14,7 @@ const RegisterPage = () => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector(selectAuth);
 
+  //
   const handleSubmit = e => {
     e.preventDefault();
 
