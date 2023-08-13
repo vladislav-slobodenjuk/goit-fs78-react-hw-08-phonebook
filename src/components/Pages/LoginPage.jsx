@@ -38,7 +38,7 @@ const LoginPage = () => {
         </label>
         <label style={style}>
           Password
-          <input type="password" name="password" value="examplepwd1234" />
+          <input type="password" name="password" />
         </label>
         <button type="submit">Log In</button>
       </form>
@@ -47,5 +47,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-// email123@mail.com

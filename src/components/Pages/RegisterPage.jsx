@@ -48,7 +48,7 @@ const RegisterPage = () => {
             name="password"
             minLength={7}
             required
-            value="examplepwd1234"
+            // value="examplepwd1234"
           />
         </label>
         <button type="submit">Register</button>
