@@ -16,7 +16,7 @@ const LazyContactsPage = lazy(() => import('../Pages/ContactsPage'));
 
 export const App = () => {
   const dispatch = useDispatch();
-  const { token, isLoading, isLoggedIn } = useSelector(selectAuth);
+  const { token, isLoggedIn, isLoading, user } = useSelector(selectAuth);
 
   useEffect(() => {
     if (!token || isLoggedIn) return;
@@ -36,6 +36,7 @@ export const App = () => {
           {isLoggedIn ? (
             <>
               <NavLink to="/contacts">Contacts</NavLink>
+              <p style={{ display: 'inline-block' }}>{user.email}</p>
               <button type="button" onClick={handleLogout}>
                 Log Out
               </button>

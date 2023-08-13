@@ -1,5 +1,8 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+
 import { loginUser } from 'redux/auth/operations';
+import { selectAuth } from 'redux/auth/selectors';
 
 const style = {
   display: 'flex',
@@ -9,6 +12,7 @@ const style = {
 
 const LoginPage = () => {
   const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector(selectAuth);
 
   //
   const handleSubmit = e => {
@@ -19,6 +23,8 @@ const LoginPage = () => {
 
     dispatch(loginUser({ email, password }));
   };
+
+  if (isLoggedIn) return <Navigate to="/contacts" />;
 
   return (
     <div>
@@ -40,3 +46,5 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+// email123@mail.com
