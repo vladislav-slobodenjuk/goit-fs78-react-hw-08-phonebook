@@ -22,6 +22,7 @@ const RegisterPage = () => {
     const password = e.target.elements.password.value.trim();
 
     dispatch(registerUser({ name, email, password }));
+    e.target.reset();
   };
 
   if (isLoggedIn) return <Navigate to="/contacts" />;

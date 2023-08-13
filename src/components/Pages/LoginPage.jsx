@@ -22,6 +22,7 @@ const LoginPage = () => {
     const password = e.target.elements.password.value.trim();
 
     dispatch(loginUser({ email, password }));
+    e.target.reset();
   };
 
   if (isLoggedIn) return <Navigate to="/contacts" />;
