@@ -1,6 +1,6 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Formik, Field } from 'formik';
+import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import { StyledForm } from './ContactForm.styled';
@@ -13,6 +13,11 @@ const initialValues = {
   number: '',
 };
 
+const AddContactSchema = Yup.object().shape({
+  name: Yup.string().min(2, 'Too short').required('Requered'),
+  number: Yup.number().required(),
+});
+
 export const ContactForm = () => {
   // const [data, setData] = useState({ name: '', number: '' });
   const { items } = useSelector(selectContacts);
@@ -22,52 +27,58 @@ export const ContactForm = () => {
   //   setData(prev => ({ ...prev, [name]: value }));
   // };
 
-  const handleSubmit = (values, actions) => {
+  const handleSubmit = ({ name, number }, { resetForm }) => {
     // e.preventDefault();
 
-    console.log(values);
+    const isExist = items.find(
+      contact =>
+        contact.name.toLowerCase() === name.toLowerCase() ||
+        contact.number === number
+    );
+    if (isExist) return alert(`${name} or ${number} is already in contacts.`);
 
-    // const isExist = items.find(
-    //   contact =>
-    //     contact.name.toLowerCase() === name.toLowerCase() ||
-    //     contact.number === number
-    // );
-    // if (isExist) return alert(`${name} or ${number} is already in contacts.`);
-
-    // dispatch(addContact({ name: name.trim(), number }));
+    dispatch(addContact({ name: name.trim(), number }));
     // setData({ name: '', number: '' });
+    resetForm();
   };
 
   // const { name, number } = data;
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={AddContactSchema}
+      onSubmit={handleSubmit}
+    >
       <StyledForm>
         <label>
           Name:
           <Field
             type="text"
             name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            // pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
+            // required
             // value={name}
             // onChange={hadleInputChange}
           />
         </label>
+        <ErrorMessage name="name" />
 
         <label>
           Number:
           <Field
             type="tel"
             name="number"
-            pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
+            // pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
             title="phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
+            // required
             // value={number}
             // onChange={hadleInputChange}
           />
         </label>
+        <ErrorMessage name="number" />
+
         <button type="submit">Add contact</button>
       </StyledForm>
     </Formik>
