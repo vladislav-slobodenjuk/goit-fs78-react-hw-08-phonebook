@@ -9,6 +9,7 @@ export const StyledForm = styled(Form)`
   align-items: flex-end;
 
   padding: 20px;
+  margin-bottom: 30px;
 
   background-color: white;
   border-radius: 5px;

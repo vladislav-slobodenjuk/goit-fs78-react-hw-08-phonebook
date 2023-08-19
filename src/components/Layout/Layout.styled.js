@@ -20,17 +20,9 @@ export const Container = styled.div`
     /* text-align: center; */
   }
 
-  form {
-    margin-bottom: 30px;
-  }
-
   input {
     border-radius: 5px;
     border: 1px solid #7d8c9b;
-  }
-
-  & div {
-    margin-bottom: 20px;
   }
 
   input {
