@@ -16,7 +16,6 @@ const ContactsPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!isLoggedIn) return;
     dispatch(getAllContacts());
   }, [dispatch, isLoggedIn]);
 

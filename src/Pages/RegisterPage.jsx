@@ -1,8 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { registerUser } from 'redux/auth/operations';
-import { selectAuth } from 'redux/auth/selectors';
 
 const style = {
   display: 'flex',
@@ -12,7 +10,6 @@ const style = {
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector(selectAuth);
 
   //
   const handleSubmit = e => {
@@ -25,8 +22,6 @@ const RegisterPage = () => {
     dispatch(registerUser({ name, email, password }));
     e.target.reset();
   };
-
-  if (isLoggedIn) return <Navigate to="/contacts" />;
 
   return (
     <div>
