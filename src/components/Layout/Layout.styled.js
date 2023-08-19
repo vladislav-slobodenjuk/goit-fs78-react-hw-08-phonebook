@@ -1,10 +1,14 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 0 auto;
+  padding: 0 16px;
+
+  /* padding-top: 20px;
+  padding-bottom: 20px; */
+  /* margin-right: auto;
+  margin-left: auto; */
+
   width: 370px;
 
   font-size: 20px;

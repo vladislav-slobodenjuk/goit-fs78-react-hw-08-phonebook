@@ -6,22 +6,19 @@ import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
 import { Loader } from 'components/Loader/Loader';
 
-import { selectAuth } from 'redux/auth/selectors';
 import { selectContacts } from 'redux/contacts/selectors';
 import { getAllContacts } from 'redux/contacts/operations';
 
 const ContactsPage = () => {
   const { isLoading } = useSelector(selectContacts);
-  const { isLoggedIn } = useSelector(selectAuth);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllContacts());
-  }, [dispatch, isLoggedIn]);
+  }, [dispatch]);
 
   return (
     <div>
-      {/* <Container> */}
       <h1>Phonebook</h1>
       <ContactForm />
 
@@ -30,7 +27,6 @@ const ContactsPage = () => {
       <ContactList />
 
       {isLoading && <Loader />}
-      {/* </Container> */}
     </div>
   );
 };
