@@ -8,5 +8,4 @@ export const StyledHeader = styled.header`
   margin-bottom: 16px;
   border-bottom: 1px solid black;
   padding: 8px 0;
-  /* gap: 12px; */
 `;

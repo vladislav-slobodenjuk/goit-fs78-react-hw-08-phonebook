@@ -8,6 +8,7 @@ const style = {
   marginBottom: '16px',
 };
 
+// value="examplepwd1234"
 const LoginPage = () => {
   const dispatch = useDispatch();
 

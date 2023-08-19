@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectAuth } from 'redux/auth/selectors';
 import { logoutUser } from 'redux/auth/operations';
+import { StyledUserMenu } from './UserMenu.styled';
 
 export const UserMenu = () => {
   const dispatch = useDispatch();
@@ -12,11 +13,11 @@ export const UserMenu = () => {
   };
 
   return (
-    <div>
-      <p style={{ display: 'inline-block' }}>Welcome, {user.name}</p>
+    <StyledUserMenu>
+      <p>Welcome, {user.name}</p>
       <button type="button" onClick={handleLogout}>
         Log Out
       </button>
-    </div>
+    </StyledUserMenu>
   );
 };

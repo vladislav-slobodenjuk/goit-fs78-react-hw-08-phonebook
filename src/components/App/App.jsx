@@ -17,14 +17,16 @@ const LazyContactsPage = lazy(() => import('../../Pages/ContactsPage'));
 
 export const App = () => {
   const dispatch = useDispatch();
-  const { token, isLoggedIn } = useSelector(selectAuth);
+  const { token, isLoggedIn, isLoading } = useSelector(selectAuth);
 
   useEffect(() => {
     if (!token || isLoggedIn) return;
     dispatch(refreshUser());
   }, [dispatch, token, isLoggedIn]);
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <Layout>
       <Suspense fallback={<Loader />}>
         <Routes>

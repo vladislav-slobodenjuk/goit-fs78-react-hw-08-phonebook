@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -14,22 +13,26 @@ const initialValues = {
 };
 
 const AddContactSchema = Yup.object().shape({
-  name: Yup.string().min(2, 'Too short').required('Requered'),
-  number: Yup.number().required(),
+  name: Yup.string()
+    .min(2, 'Too short')
+    .matches(
+      /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
+      "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+    )
+    .required('Required'),
+  number: Yup.string()
+    .matches(
+      /"\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}/,
+      'phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
+    )
+    .required('Required'),
 });
 
 export const ContactForm = () => {
-  // const [data, setData] = useState({ name: '', number: '' });
   const { items } = useSelector(selectContacts);
   const dispatch = useDispatch();
 
-  // const hadleInputChange = ({ target: { name, value } }) => {
-  //   setData(prev => ({ ...prev, [name]: value }));
-  // };
-
   const handleSubmit = ({ name, number }, { resetForm }) => {
-    // e.preventDefault();
-
     const isExist = items.find(
       contact =>
         contact.name.toLowerCase() === name.toLowerCase() ||
@@ -38,11 +41,8 @@ export const ContactForm = () => {
     if (isExist) return alert(`${name} or ${number} is already in contacts.`);
 
     dispatch(addContact({ name: name.trim(), number }));
-    // setData({ name: '', number: '' });
     resetForm();
   };
-
-  // const { name, number } = data;
 
   return (
     <Formik
@@ -53,29 +53,13 @@ export const ContactForm = () => {
       <StyledForm>
         <label>
           Name:
-          <Field
-            type="text"
-            name="name"
-            // pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            // required
-            // value={name}
-            // onChange={hadleInputChange}
-          />
+          <Field type="text" name="name" />
         </label>
         <ErrorMessage name="name" />
 
         <label>
           Number:
-          <Field
-            type="tel"
-            name="number"
-            // pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
-            title="phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            // required
-            // value={number}
-            // onChange={hadleInputChange}
-          />
+          <Field type="tel" name="number" />
         </label>
         <ErrorMessage name="number" />
 

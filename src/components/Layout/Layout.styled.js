@@ -4,11 +4,6 @@ export const Container = styled.div`
   margin: 0 auto;
   padding: 0 16px;
 
-  /* padding-top: 20px;
-  padding-bottom: 20px; */
-  /* margin-right: auto;
-  margin-left: auto; */
-
   width: 370px;
 
   font-size: 20px;
@@ -17,7 +12,6 @@ export const Container = styled.div`
   h1,
   h2 {
     margin-bottom: 20px;
-    /* text-align: center; */
   }
 
   input {
@@ -34,16 +28,9 @@ export const Container = styled.div`
   }
 
   @media screen and (min-width: 768px) {
-    /* width: 768px; */
-    /* padding-left: 32px; */
-    /* padding-right: 32px; */
+    width: 768px;
   }
   /* @media screen and (min-width: 1280px) {
     width: 1280px;
   } */
-
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* align-items: center; */
-  /* justify-content: center; */
 `;
