@@ -1,4 +1,6 @@
 import { useDispatch } from 'react-redux';
+import { Formik, Field, ErrorMessage, Form } from 'formik';
+import * as Yup from 'yup';
 
 import { loginUser } from 'redux/auth/operations';
 
@@ -8,36 +10,58 @@ const style = {
   marginBottom: '16px',
 };
 
+const initialValues = {
+  email: '',
+  password: '',
+};
+
+const RegisterSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Required'),
+  password: Yup.string().min(7).required('Required'),
+});
+
 // value="examplepwd1234"
 const LoginPage = () => {
   const dispatch = useDispatch();
 
   //
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    const email = e.target.elements.email.value.trim();
-    const password = e.target.elements.password.value.trim();
-
+  const handleSubmit = ({ email, password }, { resetForm }) => {
     dispatch(loginUser({ email, password }));
-    e.target.reset();
+    resetForm();
   };
 
   return (
     <div>
       <h1>LoginPage</h1>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={RegisterSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form>
+          <label style={style}>
+            Email
+            <Field type="email" name="email" />
+          </label>
+          <ErrorMessage
+            component="div"
+            style={{ color: 'red', fontSize: '14px' }}
+            name="email"
+          />
 
-      <form onSubmit={handleSubmit}>
-        <label style={style}>
-          Email
-          <input type="email" name="email" />
-        </label>
-        <label style={style}>
-          Password
-          <input type="password" name="password" />
-        </label>
-        <button type="submit">Log In</button>
-      </form>
+          <label style={style}>
+            Password
+            <Field type="password" name="password" />
+          </label>
+          <ErrorMessage
+            component="div"
+            style={{ color: 'red', fontSize: '14px' }}
+            name="password"
+          />
+
+          <button type="submit">Log In</button>
+        </Form>
+      </Formik>
     </div>
   );
 };

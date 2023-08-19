@@ -22,7 +22,7 @@ const AddContactSchema = Yup.object().shape({
     .required('Required'),
   number: Yup.string()
     .matches(
-      /"\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}/,
+      /\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}/,
       'phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
     )
     .required('Required'),
@@ -55,13 +55,21 @@ export const ContactForm = () => {
           Name:
           <Field type="text" name="name" />
         </label>
-        <ErrorMessage name="name" />
+        <ErrorMessage
+          style={{ color: 'red', fontSize: '14px' }}
+          component="div"
+          name="name"
+        />
 
         <label>
           Number:
           <Field type="tel" name="number" />
         </label>
-        <ErrorMessage name="number" />
+        <ErrorMessage
+          style={{ color: 'red', fontSize: '14px' }}
+          component="div"
+          name="number"
+        />
 
         <button type="submit">Add contact</button>
       </StyledForm>

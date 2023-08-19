@@ -18,11 +18,6 @@ const handleRejected = (state, action) => {
   state.isLoading = false;
 };
 
-// const handleFulfilledDefaults = state => {
-//   state.isLoading = false;
-//   state.error = null;
-// };
-
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: contactsInitialState,
