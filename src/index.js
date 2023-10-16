@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { NextUIProvider } from '@nextui-org/react';
 
 import { persistor, store } from 'redux/store';
 
@@ -16,7 +17,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter basename="/goit-fs78-react-hw-08-phonebook">
       <Provider store={store}>
         <PersistGate loading={<Loader />} persistor={persistor}>
-          <App />
+          <NextUIProvider>
+            <App />
+          </NextUIProvider>
         </PersistGate>
       </Provider>
     </BrowserRouter>

@@ -51,7 +51,11 @@ const LoginPage = () => {
 
           <label style={style}>
             Password
-            <Field type="password" name="password" />
+            <Field
+              type="password"
+              name="password"
+              // value="examplepwd1234"
+            />
           </label>
           <ErrorMessage
             component="div"
